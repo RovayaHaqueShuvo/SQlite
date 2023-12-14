@@ -19,6 +19,14 @@ class MyDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, nu
     }
 
 
+/* onCreate(): This method is called when the database is first created.
+ It creates the database table.
+* onCreate(): The onCreate() method is called when the database is first created.
+ It creates the database table.
+ The table name is "knowledge" and it has three columns: "ID", "Name", and "Description".
+  The "ID" column is the primary key and is auto-incremented. The "Name" column is a text column and stores the title of the note.
+  The "Description" column is also a text column and stores the content of the note.
+* */
     override fun onCreate(db: SQLiteDatabase?) {
         val createTable =
             "CREATE TABLE $TABLE_NAME ($Culum_ID INTEGER PRIMARY KEY AUTOINCREMENT, $Culum_Name TEXT, $Culum_Description TEXT)"
@@ -26,12 +34,23 @@ class MyDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, nu
 
     }
 
+
+    /*onUpgrade(): This method is called when the database is upgraded to a new version.
+    It drops the old table and creates a new one.
+    onUpgrade(): The onUpgrade() method is called when the database is upgraded to a new version.
+    It drops the old table and creates a new one.
+     This is necessary because the schema of the database may have changed since the last time it was upgraded.
+     */
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         val dropTable = "DROP TABLE IF EXISTS $TABLE_NAME"
         db?.execSQL(dropTable)
         onCreate(db)
     }
-
+/*insertNote(): This method inserts a new note into the database.
+* insertNote(): The insertNote() method inserts a new note into the database.
+* The method takes a DataClass object as its parameter.
+*  The DataClass object contains the title and content of the note.
+* The method inserts the data from the DataClass object into the database table.*/
     fun insertNote(note: DataClass) {
         val db = this.writableDatabase
         val contentValues = ContentValues().apply {
@@ -43,7 +62,10 @@ class MyDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, nu
 
     }
 
-
+/*getallNotes(): This method returns a list of all the notes in the database.
+* getallNotes(): The getallNotes() method returns a list of all the notes in the database.
+* The method returns a list of DataClass objects.
+* Each DataClass object contains the title and content of a note.*/
     fun getallNotes(): List<DataClass> {
         val list = mutableListOf<DataClass>()
         val db = this.readableDatabase
