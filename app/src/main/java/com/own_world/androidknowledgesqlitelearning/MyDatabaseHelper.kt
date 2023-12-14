@@ -42,4 +42,25 @@ class MyDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, nu
         db.close()
 
     }
+
+
+    fun getallNotes(): List<DataClass> {
+        val list = mutableListOf<DataClass>()
+        val db = this.readableDatabase
+        val query = "SELECT * FROM $TABLE_NAME"
+        val cursor = db.rawQuery(query, null)
+        while (cursor.moveToNext()) {
+            val id = cursor.getInt(cursor.getColumnIndexOrThrow(Culum_ID))
+            val title = cursor.getString(cursor.getColumnIndexOrThrow(Culum_Name))
+            val content = cursor.getString(cursor.getColumnIndexOrThrow(Culum_Description))
+
+            val note = DataClass(id, title, content)
+            list.add(note)
+        }
+        cursor.close()
+        db.close()
+        return list
+
+
+    }
 }
